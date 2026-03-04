@@ -12,7 +12,7 @@ const failBtn = document.querySelector(".fail");
 const studentList = document.querySelector("#studentList");
 
 //making student array list
-const students = [];
+const students = JSON.parse(localStorage.getItem("students")) || [];
 
 //adding functionality on addBtn
 addBtn.addEventListener("click", () => {
@@ -20,6 +20,7 @@ addBtn.addEventListener("click", () => {
   const marks = Number(marksInput.value);
   if (name !== "" && marks >= 0 && marks <= 100) {
     students.push({ name: name, marks: marks });
+    addDataTOLocalStorage()
   } else {
     alert("Please Enter a Name and Marks");
   }
@@ -41,6 +42,7 @@ function renderStudent(studentArr) {
       const realIndex = students.indexOf(student); // find correct index in main array
       if (realIndex > -1) {
         students.splice(realIndex, 1);
+        addDataTOLocalStorage()
       }
       renderStudent(students); // re-render full list after delete
     });
@@ -134,3 +136,8 @@ searchBtn.addEventListener("input", () => {
   });
   renderStudent(filteredStudent);
 });
+
+//function to add data in localstorage
+function addDataTOLocalStorage() {
+  localStorage.setItem("students", JSON.stringify(students));
+}

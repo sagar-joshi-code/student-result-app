@@ -28,22 +28,31 @@ addBtn.addEventListener("click", () => {
 
 function renderStudent(studentArr) {
   studentList.textContent = "";
-  studentArr.forEach((student, index) => {
+
+  studentArr.forEach((student) => {
     const li = document.createElement("li");
     li.textContent = `Name: ${student.name} - Marks: ${student.marks}`;
+
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "❌";
     deleteBtn.style.width = "40px";
+
     deleteBtn.addEventListener("click", () => {
-      students.splice(index, 1);
-      renderStudent(students);
+      const realIndex = students.indexOf(student); // find correct index in main array
+      if (realIndex > -1) {
+        students.splice(realIndex, 1);
+      }
+      renderStudent(students); // re-render full list after delete
     });
+
     li.appendChild(deleteBtn);
     studentList.appendChild(li);
   });
+
   nameInput.value = "";
   marksInput.value = "";
 }
+
 renderStudent(students);
 
 //showing all students
